@@ -13,6 +13,14 @@
 	"jest": {
 		"preset": "jest-expo"
 	},
+	"lint-staged": {
+		"*.{ts,tsx}": "prettier --write"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
 	"dependencies": {
 		"@expo/vector-icons": "^12.0.0",
 		"@react-native-community/masked-view": "0.1.10",
@@ -39,7 +47,10 @@
 		"@babel/core": "~7.9.0",
 		"@types/react": "~16.9.35",
 		"@types/react-native": "~0.63.2",
+		"git-format-staged": "^2.1.0",
+		"husky": "^4.3.6",
 		"jest-expo": "~40.0.0",
+		"lint-staged": "^10.5.3",
 		"prettier": "^2.2.1",
 		"typescript": "~4.0.0"
 	},
