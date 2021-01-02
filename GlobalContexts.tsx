@@ -3,7 +3,7 @@ import { ColorSchemeName } from "react-native"
 import useColorScheme from "./hooks/useColorScheme"
 import { colorSchemeContext } from "./hooks/useColorSchemeContext"
 
-type GlobalContextsProps = PropsWithChildren<{}>
+type GlobalContextsProps = PropsWithChildren<Record<string, unknown>>
 
 export default function GlobalContexts(props: GlobalContextsProps) {
 	const colorScheme = useColorScheme()
