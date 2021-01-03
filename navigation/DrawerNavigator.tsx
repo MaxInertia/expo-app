@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"
+import { createDrawerNavigator } from "@react-navigation/drawer"
+import { createStackNavigator } from "@react-navigation/stack"
 import * as React from "react"
 
 import Colors from "../constants/Colors"
@@ -8,36 +9,25 @@ import useColorScheme from "../hooks/useColorScheme"
 import TabOneScreen from "../screens/TabOneScreen"
 import TabTwoScreen from "../screens/TabTwoScreen"
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from "./types"
-import DrawerNavigator from "./DrawerNavigator"
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>()
+const Drawer = createDrawerNavigator<Omit<BottomTabParamList, "Other">>()
 
-export default function BottomTabNavigator() {
+export default function DrawerNavigator() {
 	const colorScheme = useColorScheme()
+
 	return (
-		<BottomTab.Navigator initialRouteName="TabOne" tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-			<BottomTab.Screen
+		<Drawer.Navigator initialRouteName="TabOne" drawerType={"slide"}>
+			<Drawer.Screen
 				name="TabOne"
 				component={TabOneNavigator}
-				options={{
-					tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-				}}
+				// options={{}}
 			/>
-			<BottomTab.Screen
+			<Drawer.Screen
 				name="TabTwo"
 				component={TabTwoNavigator}
-				options={{
-					tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-				}}
+				// options={{}}
 			/>
-			<BottomTab.Screen
-				name="Other"
-				component={DrawerNavigator}
-				options={{
-					tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
-				}}
-			/>
-		</BottomTab.Navigator>
+		</Drawer.Navigator>
 	)
 }
 
@@ -52,10 +42,7 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator<TabOneParamList>()
 
-type TabOneScreenNavigationProp = StackNavigationProp<TabOneParamList, "TabOneScreen">
-
 function TabOneNavigator() {
-	// const navigator = useNavigation<>()
 	return (
 		<TabOneStack.Navigator>
 			<TabOneStack.Screen
@@ -71,7 +58,7 @@ const TabTwoStack = createStackNavigator<TabTwoParamList>()
 
 function TabTwoNavigator() {
 	return (
-		<TabTwoStack.Navigator mode={"card"}>
+		<TabTwoStack.Navigator>
 			<TabTwoStack.Screen
 				name="TabTwoScreen"
 				component={TabTwoScreen}

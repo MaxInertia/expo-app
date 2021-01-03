@@ -16,6 +16,11 @@ export default {
 							TabTwoScreen: "two",
 						},
 					},
+					Other: {
+						screens: {
+							OtherNavigator: "Other",
+						},
+					},
 				},
 			},
 			NotFound: "*",
