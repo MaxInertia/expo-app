@@ -1,7 +1,9 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
+import { useEffect, useState } from "react"
 import * as React from "react"
 import { ColorSchemeName } from "react-native"
+import * as Device from "expo-device"
 
 import NotFoundScreen from "../screens/NotFoundScreen"
 import DrawerNavigator from "./DrawerNavigator"
@@ -24,10 +26,22 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
+	const [deviceType, setDeviceType] = useState<Device.DeviceType>()
+	useEffect(() => {
+		Device.getDeviceTypeAsync().then((deviceType: Device.DeviceType) => setDeviceType(deviceType))
+	}, [])
+	if (!deviceType) return null
+
+	const onPhoneOrTablet = deviceType === Device.DeviceType.PHONE || deviceType === Device.DeviceType.TABLET
+	const StackScreen = onPhoneOrTablet ? (
+		<Stack.Screen name="Root" component={BottomTabNavigator} />
+	) : (
+		<Stack.Screen name="Root" component={DrawerNavigator} />
+	)
+
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Root"}>
-			<Stack.Screen name="Root" component={BottomTabNavigator} />
-			<Stack.Screen name="Drawer" component={DrawerNavigator} />
+			{StackScreen}
 			<Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: "Oops!" }} />
 		</Stack.Navigator>
 	)
